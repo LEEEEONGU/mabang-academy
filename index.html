@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>马帮商学院 · 闭门圆桌</title>
+  <style>
+    :root {
+      --bg: #08080E;
+      --bg2: #0E0E16;
+      --card: #131320;
+      --purple: #7C3AED;
+      --purple-l: #A78BFA;
+      --purple-g: rgba(124,58,237,0.12);
+      --gold: #C5A55A;
+      --gold-l: #D4BA78;
+      --gold-g: rgba(197,165,90,0.1);
+      --gold-b: rgba(197,165,90,0.18);
+      --text: #E4E4EE;
+      --text2: #7E7E98;
+      --text3: #3E3E58;
+      --border: rgba(255,255,255,0.05);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;-webkit-font-smoothing:antialiased}
+    body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);max-width:480px;margin:0 auto;overflow-x:hidden}
+    .s1{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:48px 28px;position:relative;transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .5s cubic-bezier(.4,0,.2,1)}
+    .s1.exit{opacity:0;transform:scale(.98);pointer-events:none}
+    .s1::before{content:'';position:absolute;top:0;left:10%;right:10%;height:.5px;background:linear-gradient(90deg,transparent,var(--gold-b),var(--gold),var(--gold-b),transparent)}
+    .s1::after{content:'';position:absolute;bottom:0;left:15%;right:15%;height:.5px;background:linear-gradient(90deg,transparent,var(--gold-b),transparent)}
+    .s1-head{margin-bottom:40px;opacity:0;animation:fadeUp .6s ease .2s forwards}
+    .s1-head h1{font-size:24px;font-weight:800;line-height:1.5;color:#fff}
+    .s1-head h1 .hl{background:linear-gradient(135deg,var(--purple),var(--purple-l));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .pain-list{margin-bottom:44px}
+    .pain{display:flex;gap:16px;padding:16px 0 16px 16px;border-left:2px solid transparent;cursor:pointer;transition:all .3s;border-radius:0 8px 8px 0;opacity:0;animation:fadeUp .5s ease forwards}
+    .pain:nth-child(1){animation-delay:.5s}
+    .pain:nth-child(2){animation-delay:.8s}
+    .pain:nth-child(3){animation-delay:1.1s}
+    .pain.active{border-left-color:var(--purple);background:var(--purple-g)}
+    .pain-num{font-size:13px;font-weight:700;color:var(--purple-l);font-style:italic;flex-shrink:0;margin-top:2px;font-family:'Georgia',serif}
+    .pain-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+    .pain .pain-desc{font-size:12px;color:var(--text2);line-height:1.6;max-height:0;overflow:hidden;transition:max-height .4s,opacity .3s;opacity:0}
+    .pain.active .pain-desc{max-height:80px;opacity:1}
+    .s1-cta{opacity:0;animation:fadeUp .5s ease 1.6s forwards}
+    .s1-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 36px;font-size:15px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--purple),#6D28D9);border:none;border-radius:8px;cursor:pointer;letter-spacing:1px;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+    .s1-btn::before{content:'';position:absolute;inset:-2px;border-radius:10px;background:linear-gradient(135deg,var(--purple),#6D28D9);filter:blur(16px);opacity:0;transition:opacity .3s;z-index:-1}
+    .s1-btn:hover::before{opacity:.5}
+    .s1-btn:active{transform:scale(.97)}
+    .s1-btn .arr{transition:transform .3s}
+    .s1-btn:hover .arr{transform:translateX(4px)}
+    .s1-sub{font-size:11px;color:var(--text3);margin-top:14px;opacity:0;animation:fadeUp .4s ease 2s forwards}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    .s2{min-height:100vh;padding:0;display:none;flex-direction:column;background:var(--bg2);position:relative}
+    .s2.show{display:flex}
+    .s2-inner{padding:36px 24px env(safe-area-inset-bottom,36px)}
+    @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .an{opacity:0;animation:up .5s cubic-bezier(0,0,.2,1) forwards}
+    .d1{animation-delay:.1s}.d2{animation-delay:.22s}.d3{animation-delay:.34s}
+    .d4{animation-delay:.46s}.d5{animation-delay:.58s}.d6{animation-delay:.7s}.d7{animation-delay:.82s}
+    .s2-gold-top{height:3px;background:linear-gradient(90deg,transparent 5%,var(--gold) 30%,var(--gold-l) 50%,var(--gold) 70%,transparent 95%);opacity:.6}
+    .brand{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:8px}
+    .brand-bar{width:1px;height:28px;background:rgba(255,255,255,.08);flex-shrink:0}
+    .brand-r{display:flex;align-items:center;gap:8px;padding-left:2px;margin-top:-2px}
+    .aca-icon{width:28px;height:28px;border:1.5px solid var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+    .aca-icon svg{width:16px;height:16px}
+    .aca-icon::after{content:'';position:absolute;inset:-1px;border-radius:6px;background:var(--gold-g);z-index:-1}
+    .aca-lbl{display:flex;flex-direction:column}
+    .aca-cn{font-size:15px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:2px;line-height:1.15}
+    .aca-en{font-size:8px;color:var(--gold);letter-spacing:2px;font-weight:500;opacity:.5}
+    .gold-line{width:48px;height:.5px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:16px auto}
+    .ttl{text-align:center;margin-bottom:24px}
+    .ttl h1{font-size:24px;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-.3px}
+    .ttl h1 .hl{background:linear-gradient(135deg,var(--purple),var(--purple-l));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .ttl .sub{display:inline-block;font-size:11px;color:var(--gold);border:1px solid var(--gold-b);padding:3px 16px;border-radius:4px;letter-spacing:1.5px}
+    .product-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px;position:relative;overflow:hidden}
+    .product-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--purple),var(--purple-l),var(--purple));opacity:.5}
+    .pc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .pc-title{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#fff}
+    .pc-title svg{width:16px;height:16px}
+    .pc-badge{font-size:10px;color:var(--purple-l);background:var(--purple-g);padding:3px 10px;border-radius:4px;font-weight:600}
+    .pc-row{display:flex;align-items:center;padding:8px 10px;background:rgba(124,58,237,.04);border:1px solid rgba(124,58,237,.08);border-radius:6px;margin-bottom:6px}
+    .pc-row-label{font-size:11px;color:var(--purple-l);font-weight:600;width:52px;flex-shrink:0}
+    .pc-row-val{font-size:11px;color:var(--text2);flex:1}
+    .pc-footer{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+    .pc-tag{font-size:9px;padding:3px 8px;border-radius:4px;background:rgba(124,58,237,.08);color:var(--purple-l);border:1px solid rgba(124,58,237,.1)}
+    .pts{margin-bottom:24px}
+    .pt{display:flex;gap:14px;padding:16px;margin-bottom:8px;border-radius:10px;background:var(--card);border:1px solid var(--border);transition:border-color .3s}
+    .pt:active{border-color:rgba(197,165,90,.2)}
+    .pt-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+    .pt-t{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px}
+    .pt-d{font-size:12px;color:var(--text2);line-height:1.55}
+    .inf{display:flex;gap:8px;margin-bottom:24px}
+    .inf-c{flex:1;text-align:center;padding:12px 4px;background:var(--card);border:1px solid var(--border);border-radius:8px;position:relative;overflow:hidden}
+    .inf-c::before{content:'';position:absolute;bottom:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--gold-b),transparent)}
+    .inf-l{font-size:10px;color:var(--text3)}
+    .inf-v{font-size:14px;font-weight:700;color:#fff;margin-top:2px}
+    .inf-v.gd{background:linear-gradient(135deg,var(--gold),var(--gold-l));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .fc{background:var(--card);border:1px solid var(--gold-b);border-radius:12px;padding:22px 20px;margin-bottom:16px;position:relative;overflow:hidden;transition:border-color .3s}
+    .fc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 10%,var(--gold) 50%,transparent 90%);opacity:.4}
+    .fc-hd{text-align:center;margin-bottom:16px}
+    .fc-t{font-size:15px;font-weight:700;color:#fff}
+    .fc-st{font-size:11px;color:var(--text3);margin-top:3px}
+    .fbtn{width:100%;color:#0A0A0F;font-size:15px;font-weight:700;padding:14px;border:none;border-radius:8px;cursor:pointer;margin-top:6px;letter-spacing:1px;background:linear-gradient(135deg,var(--gold),var(--gold-l));position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s}
+    .fbtn::before{content:'';position:absolute;inset:-4px;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-l));filter:blur(20px);opacity:0;transition:opacity .3s;z-index:-1}
+    .fbtn:hover::before{opacity:.3}
+    .fbtn:active{transform:scale(.98)}
+    .foot{text-align:center;font-size:10px;color:#1E1E30;padding-bottom:20px}
+    .corner-tl,.corner-br{position:absolute;width:20px;height:20px;pointer-events:none}
+    .corner-tl{top:12px;left:12px;border-top:1px solid var(--gold-b);border-left:1px solid var(--gold-b);border-radius:4px 0 0 0}
+    .corner-br{bottom:12px;right:12px;border-bottom:1px solid var(--gold-b);border-right:1px solid var(--gold-b);border-radius:0 0 4px 0}
+  </style>
+</head>
+<body>
+<div class="s1" id="s1">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="s1-head">
+    <h1>做跨境电商，<br>你是否也面临这些<br><span class="hl">瓶颈时刻</span>？</h1>
+  </div>
+  <div class="pain-list">
+    <div class="pain active" onclick="tp(this)">
+      <div class="pain-num">01</div>
+      <div class="pain-body">
+        <div class="pain-title">GMV过亿，利润不涨</div>
+        <div class="pain-desc">规模越大，隐性成本越高。团队膨胀、渠道内耗、选品靠感觉——增长到了拐点。</div>
+      </div>
+    </div>
+    <div class="pain" onclick="tp(this)">
+      <div class="pain-num">02</div>
+      <div class="pain-body">
+        <div class="pain-title">AI风口来了，不知道怎么接</div>
+        <div class="pain-desc">同行已经在用AI选品铺货，你的团队还在手动复制粘贴。半年后差距就是一个量级。</div>
+      </div>
+    </div>
+    <div class="pain" onclick="tp(this)">
+      <div class="pain-num">03</div>
+      <div class="pain-body">
+        <div class="pain-title">能聊战略的人，越来越少</div>
+        <div class="pain-desc">圈子里全是噪音。同级别的深度交流极度稀缺，你需要一张真正有价值的桌子。</div>
+      </div>
+    </div>
+  </div>
+  <div class="s1-cta">
+    <button class="s1-btn" onclick="go()">查看邀请函 <span class="arr">&rarr;</span></button>
+  </div>
+  <div class="s1-sub">仅限受邀者查看</div>
+</div>
+<div class="s2" id="s2">
+  <div class="s2-gold-top"></div>
+  <div class="s2-inner">
+  <div class="brand an d1">
+    <div class="brand-l"><span style="font-size:20px;font-weight:800;color:rgba(255,255,255,.85);letter-spacing:2px">MABANG</span></div>
+    <div class="brand-bar"></div>
+    <div class="brand-r">
+      <div class="aca-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#C5A55A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7l10-4 10 4-10 4L2 7z"/><path d="M6 9v6c0 2 2.7 4 6 4s6-2 6-4V9"/><path d="M22 7v7"/></svg></div>
+      <div class="aca-lbl"><div class="aca-cn">商学院</div><div class="aca-en">ACADEMY</div></div>
+    </div>
+  </div>
+  <div class="gold-line an d1"></div>
+  <div class="ttl an d2">
+    <h1><span class="hl">AI</span>重构跨境运营</h1>
+    <div class="sub">首期 · 跨境卖家闭门峰会</div>
+  </div>
+  <div class="product-card an d3">
+    <div class="pc-header">
+      <div class="pc-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        当天内容
+      </div>
+      <div class="pc-badge">闭门 · 审核制</div>
+    </div>
+    <div class="pc-rows">
+      <div class="pc-row"><div class="pc-row-label">主题演讲</div><div class="pc-row-val">马帮创始人 · AI时代跨境企业的战略选择</div></div>
+      <div class="pc-row"><div class="pc-row-label">生态洞察</div><div class="pc-row-val">阿里巴巴生态嘉宾 · AI重构供应链与流量入口</div></div>
+      <div class="pc-row"><div class="pc-row-label">产品首秀</div><div class="pc-row-val">马帮CTO · AI产品落地实操演示</div></div>
+      <div class="pc-row"><div class="pc-row-label">深度圆桌</div><div class="pc-row-val">分组讨论 · 跨境卖家闭门交流</div></div>
+    </div>
+    <div class="pc-footer">
+      <span class="pc-tag">创始人+CTO亲自站台</span>
+      <span class="pc-tag">阿里生态一手情报</span>
+      <span class="pc-tag">10人+团队卖家专属</span>
+    </div>
+  </div>
+  <div class="pts">
+    <div class="pt an d4">
+      <div class="pt-icon">&#x1F30F;</div>
+      <div>
+        <div class="pt-t">阿里生态一手情报</div>
+        <div class="pt-d">1688供应链AI、钉钉悟空、GEO流量迁移——阿里内部嘉宾带来尚未公开的趋势判断</div>
+      </div>
+    </div>
+    <div class="pt an d5">
+      <div class="pt-icon">&#x1F91D;</div>
+      <div>
+        <div class="pt-t">创始人+CTO面对面</div>
+        <div class="pt-d">马帮帮主亲自坐镇，CTO现场演示AI产品，平时排不上的需求现场直接聊</div>
+      </div>
+    </div>
+    <div class="pt an d5">
+      <div class="pt-icon">&#x1F451;</div>
+      <div>
+        <div class="pt-t">10桌分组深度圆桌</div>
+        <div class="pt-d">不是讲座，是讨论。按行业/平台分组，全程闭门无录像，同量级的真话和信息差交换</div>
+      </div>
+    </div>
+  </div>
+  <div class="inf an d6">
+    <div class="inf-c"><div class="inf-l">日期</div><div class="inf-v gd">4月18日（周六）</div></div>
+    <div class="inf-c"><div class="inf-l">地点</div><div class="inf-v">深圳</div></div>
+    <div class="inf-c"><div class="inf-l">规模</div><div class="inf-v gd">限额100席</div></div>
+  </div>
+  <div class="fc an d7">
+    <div class="fc-hd">
+      <div class="fc-t">确认出席</div>
+      <div class="fc-st">审核制 · 团队10人以上跨境卖家</div>
+    </div>
+    <a class="fbtn" href="https://ycngs3exbeif.feishu.cn/share/base/form/shrcnmfm1vmyJoXcgrefIEhDuQc" target="_blank" style="display:block;text-align:center;text-decoration:none;margin-top:12px">确认参会</a>
+  </div>
+  <div class="foot an d7">马帮科技 · 40万+卖家 · 170+平台 · 年GMV 630亿美元</div>
+  </div>
+</div>
+<script>
+function tp(el){document.querySelectorAll('.pain').forEach(function(p){p.classList.remove('active')});el.classList.add('active')}
+function go(){var s=document.getElementById('s1');s.classList.add('exit');setTimeout(function(){s.style.display='none';document.getElementById('s2').classList.add('show')},500)}
+</script>
+</body>
+</html>
