@@ -8,7 +8,22 @@
     :root{--bg:#08080E;--bg2:#0E0E16;--card:#131320;--purple:#7C3AED;--purple-l:#A78BFA;--purple-g:rgba(124,58,237,0.12);--gold:#C5A55A;--gold-l:#D4BA78;--gold-g:rgba(197,165,90,0.1);--gold-b:rgba(197,165,90,0.18);--accent:#FF6B35;--text:#E4E4EE;--text2:#9E9EB8;--text3:#5E5E78;--border:rgba(255,255,255,0.06)}
     *{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;-webkit-font-smoothing:antialiased}
     body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);max-width:480px;margin:0 auto;overflow-x:hidden}
-    .s1{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:48px 28px;position:relative;transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .5s cubic-bezier(.4,0,.2,1)}.s1.exit{opacity:0;transform:scale(.98);pointer-events:none}.s1::before{content:'';position:absolute;top:0;left:10%;right:10%;height:.5px;background:linear-gradient(90deg,transparent,var(--gold-b),var(--gold),var(--gold-b),transparent)}
+    .s1{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:48px 28px;position:relative;transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .5s cubic-bezier(.4,0,.2,1);overflow:hidden}
+    .s1.exit{opacity:0;transform:scale(.98);pointer-events:none}
+    .s1-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+    .s1-bg::before{content:'';position:absolute;top:-30%;right:-40%;width:120%;height:80%;background:radial-gradient(ellipse at center,rgba(124,58,237,.15) 0%,rgba(124,58,237,.05) 40%,transparent 70%);animation:bgP 6s ease-in-out infinite alternate}
+    .s1-bg::after{content:'';position:absolute;bottom:-20%;left:-30%;width:100%;height:70%;background:radial-gradient(ellipse at center,rgba(255,107,53,.1) 0%,rgba(255,107,53,.03) 40%,transparent 70%);animation:bgP 8s ease-in-out 2s infinite alternate}
+    .s1-grid{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at 50% 50%,black 20%,transparent 70%)}
+    .s1-dot{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--gold);opacity:0;animation:dotF 4s ease-in-out infinite;z-index:1}
+    .s1-dot:nth-child(2){top:15%;left:20%;animation-delay:0s;animation-duration:5s}
+    .s1-dot:nth-child(3){top:30%;right:15%;animation-delay:1.5s;animation-duration:4s}
+    .s1-dot:nth-child(4){top:60%;left:10%;animation-delay:3s;animation-duration:6s}
+    .s1-dot:nth-child(5){top:75%;right:25%;animation-delay:.8s;animation-duration:5.5s}
+    .s1-dot:nth-child(6){top:45%;left:70%;animation-delay:2.2s;animation-duration:4.5s}
+    @keyframes bgP{from{opacity:.6;transform:scale(1)}to{opacity:1;transform:scale(1.1)}}
+    @keyframes dotF{0%,100%{opacity:0;transform:translateY(0)}50%{opacity:.6;transform:translateY(-20px)}}
+    .s1>*:not(.s1-bg):not(.s1-grid):not(.s1-dot){position:relative;z-index:2}
+    .s1::before{content:'';position:absolute;top:0;left:10%;right:10%;height:.5px;background:linear-gradient(90deg,transparent,var(--gold-b),var(--gold),var(--gold-b),transparent);z-index:3}
     .s1-tag{display:inline-block;font-size:10px;color:var(--gold);border:1px solid var(--gold-b);padding:3px 12px;border-radius:4px;letter-spacing:2px;margin-bottom:24px;opacity:0;animation:fadeUp .5s ease .1s forwards}
     .s1-head{margin-bottom:32px;opacity:0;animation:fadeUp .6s ease .3s forwards}.s1-head h1{font-size:26px;font-weight:800;line-height:1.5;color:#fff}.s1-head h1 .hl{background:linear-gradient(135deg,var(--accent),#FF8F6B);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.s1-head .hook-sub{font-size:14px;color:var(--text2);margin-top:12px;line-height:1.7}
     .s1-proof{margin-bottom:40px;opacity:0;animation:fadeUp .5s ease .7s forwards}.s1-proof-item{display:flex;align-items:center;gap:10px;padding:10px 0;font-size:13px;color:var(--text2)}.s1-proof-item .num{font-size:20px;font-weight:800;color:#fff;font-family:'Georgia',serif;min-width:60px}.s1-proof-item .num .unit{font-size:11px;font-weight:500;color:var(--text3)}
@@ -30,6 +45,9 @@
 </head>
 <body>
 <div class="s1" id="s1">
+  <div class="s1-bg"></div>
+  <div class="s1-grid"></div>
+  <div class="s1-dot"></div><div class="s1-dot"></div><div class="s1-dot"></div><div class="s1-dot"></div><div class="s1-dot"></div>
   <div class="s1-tag">MABANG AI ACADEMY</div>
   <div class="s1-head">
     <h1>你团队买了AI工具，<br>但<span class="hl">还在手动复制粘贴</span>？</h1>
